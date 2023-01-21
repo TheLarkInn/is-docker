@@ -1,10 +1,7 @@
 use std::fs;
 
 fn has_docker_env_file() -> bool {
-    match fs::metadata("/.dockerenv") {
-        Ok(_) => true,
-        Err(_) => false,
-    }
+    fs::metadata("/.dockerenv").is_ok()
 }
 
 fn has_docker_in_cgroup() -> bool {
