@@ -1,7 +1,5 @@
-extern crate once_cell;
-
 use std::fs;
-use once_cell::sync::OnceCell;
+use std::sync::OnceLock;
 
 fn has_docker_env_file() -> bool {
     fs::metadata("/.dockerenv").is_ok()
@@ -15,7 +13,7 @@ fn has_docker_in_cgroup() -> bool {
 }
 
 pub fn is_docker() -> bool {
-    static CACHED_RESULT: OnceCell<bool> = OnceCell::new();
+    static CACHED_RESULT: OnceLock<bool> = OnceLock::new();
 
     *CACHED_RESULT.get_or_init(|| {
         has_docker_env_file() || has_docker_in_cgroup()
